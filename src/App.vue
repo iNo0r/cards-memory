@@ -9,8 +9,8 @@ import TestAnime from "./components/test-anime.vue";
 
 <template>
   <div>
-    <!-- <GameVue /> -->
-    <Cube />
+    <GameVue />
+    <!-- <Cube /> -->
     <!-- <TestAnime /> -->
   </div>
 </template>

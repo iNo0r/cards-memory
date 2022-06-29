@@ -1,7 +1,7 @@
 <template>
   <div class="main-cube-c">
     <div class="scene">
-      <div class="cube pn-animation">
+      <div class="cube pn-animation" @click="cubeClick" :id="id">
         <div class="cube__face cube__face--front second face"></div>
         <!-- use this as the front  -->
         <div class="cube__face cube__face--front">?</div>
@@ -16,9 +16,34 @@
   </div>
 </template>
 
+<script>
+import anime from "animejs";
+
+function cubeClick(id) {
+  anime({
+    targets: `#${id}`,
+    // translateX: 200,
+    rotateY: 200,
+    duration: 400,
+    delay: 2000,
+  });
+}
+export default {
+  props: ["key", "id"],
+  methods: {
+    cubeClick() {
+      console.log("clicked");
+      cubeClick(this.id);
+    },
+  },
+  mounted() {
+    cubeClick(this.id);
+  },
+};
+</script>
 
 <style lang="scss" scoped>
-$pn-cube-heightAndWidth: 400px;
+$pn-cube-heightAndWidth: 5rem;
 $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
 
 .pn-animation:hover .cube__face--front {
@@ -32,14 +57,15 @@ $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
 .pn-animation:hover {
   transition: all 0.5s;
   /* transform: rotateY(90deg); */
-  transform: translateZ(-100px) rotateY(-10deg) rotateX(0deg);
+  transform: translateZ(-10px) rotateY(-20deg) rotateX(0deg);
 }
-.pn-animation:active {
-  transition: all 0.5s;
-  /* transform: rotateY(90deg); */
-  /* color: blue; */
-  transform: translateZ(-100px) rotateY(-160deg) rotateX(0deg);
-}
+// .pn-animation:active {
+//   transition: all 0.5s;
+//   /* transform: rotateY(90deg); */
+//   /* color: blue; */
+//   // transform: translateZ(-100px) rotateY(-160deg) rotateX(0deg);
+//   transform: rotateY(-160deg) rotateX(0deg);
+// }
 
 .main-cube-c {
   width: $pn-cube-heightAndWidth;
@@ -52,7 +78,7 @@ $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
   width: $pn-cube-heightAndWidth;
   height: $pn-cube-heightAndWidth;
 
-  margin: 100px;
+  // margin: 100px;
   perspective: calc($pn-cube-heightAndWidth * 3);
 }
 
@@ -93,7 +119,7 @@ $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
   // line-height: 300px;
   display: flex;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 10px;
   justify-content: center;
   align-items: center;
   color: white;
