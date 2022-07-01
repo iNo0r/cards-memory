@@ -1,12 +1,19 @@
 <template>
   <div class="main-cube-c">
     <div class="scene">
-      <div class="cube pn-animation" @click="cubeClick" :id="id">
+      <div
+        class="cube pn-animation"
+        @click="cubeClick"
+        :class="{ cubeClicked: clicked }"
+        :id="id"
+      >
         <div class="cube__face cube__face--front second face"></div>
         <!-- use this as the front  -->
         <div class="cube__face cube__face--front">?</div>
         <!-- use this for th back  -->
-        <div class="cube__face cube__face--back">Back</div>
+        <div class="cube__face cube__face--back">
+          <slot> </slot>
+        </div>
         <div class="cube__face cube__face--right face"></div>
         <div class="cube__face cube__face--left face"></div>
         <div class="cube__face cube__face--top face"></div>
@@ -18,6 +25,18 @@
 
 <script>
 import anime from "animejs";
+import Detactor from "./Svgs/detactor.vue";
+
+function CubeOnHover(id) {
+  let item = document.querySelector("#cubeNumber1");
+  item.addEventListener("mouseenter", () => {
+    console.log("mouse entered");
+    anime({
+      targets: "#cubeNumber1",
+      translateX: 50,
+    });
+  });
+}
 
 function cubeClick(id) {
   anime({
@@ -25,20 +44,27 @@ function cubeClick(id) {
     // translateX: 200,
     rotateY: 200,
     duration: 400,
-    delay: 2000,
+    delay: 500,
   });
 }
 export default {
   props: ["key", "id"],
+  data() {
+    return {
+      clicked: false,
+    };
+  },
   methods: {
     cubeClick() {
-      console.log("clicked");
+      this.clicked = true;
       cubeClick(this.id);
     },
   },
   mounted() {
-    cubeClick(this.id);
+    // cubeClick(this.id);
+    CubeOnHover();
   },
+  components: { Detactor },
 };
 </script>
 
@@ -50,22 +76,41 @@ $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
   font-size: 5rem;
   user-select: none;
   color: red;
-  transition: all 0.5s;
+  // transition: all 0.5s;
   /* transform: rotateY(90deg); */
   /* transform: translateZ(-100px) rotateY(-180deg) rotateX(10deg); */
 }
+
+// This effect show a yellow effect on hoverning
 .pn-animation:hover {
   transition: all 0.5s;
-  /* transform: rotateY(90deg); */
   transform: translateZ(-10px) rotateY(-20deg) rotateX(0deg);
+  -webkit-box-shadow: 7px 0px 102px 40px rgba(247, 231, 49, 0.51);
+  -moz-box-shadow: 7px 0px 102px 40px rgba(247, 231, 49, 0.51);
+  box-shadow: 7px 0px 102px 40px rgba(247, 231, 49, 0.51);
+
+  .cube__face--right,
+  .cube__face--left,
+  .cube__face--top,
+  .cube__face--bottom {
+    background: hsla(59, 100%, 51%, 0.768);
+  }
 }
-// .pn-animation:active {
-//   transition: all 0.5s;
-//   /* transform: rotateY(90deg); */
-//   /* color: blue; */
-//   // transform: translateZ(-100px) rotateY(-160deg) rotateX(0deg);
-//   transform: rotateY(-160deg) rotateX(0deg);
-// }
+// This effect show a orange effect if a cube selected
+.cubeClicked {
+  transition: all 0.5s;
+  transform: translateZ(-10px) rotateY(-20deg) rotateX(0deg);
+  -webkit-box-shadow: 7px 0px 102px 40px rgba(49, 65, 247, 0.51);
+  -moz-box-shadow: 7px 0px 102px 40px rgba(49, 65, 247, 0.51);
+  box-shadow: 7px 0px 102px 40px rgba(49, 65, 247, 0.51);
+
+  .cube__face--right,
+  .cube__face--left,
+  .cube__face--top,
+  .cube__face--bottom {
+    background: hsla(231, 100%, 51%, 0.768);
+  }
+}
 
 .main-cube-c {
   width: $pn-cube-heightAndWidth;
@@ -92,25 +137,6 @@ $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
   transition: transform 1s;
 }
 
-/* .cube.show-front {
-  transform: translateZ(-100px) rotateY(0deg);
-}
-.cube.show-right {
-  transform: translateZ(-100px) rotateY(-90deg);
-}
-.cube.show-back {
-  transform: translateZ(-100px) rotateY(-180deg);
-}
-.cube.show-left {
-  transform: translateZ(-100px) rotateY(90deg);
-}
-.cube.show-top {
-  transform: translateZ(-100px) rotateX(-90deg);
-}
-.cube.show-bottom {
-  transform: translateZ(-100px) rotateX(90deg);
-} */
-
 .cube__face {
   position: absolute;
   width: $pn-cube-heightAndWidth;
@@ -134,7 +160,7 @@ $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
 }
 
 .cube__face--back {
-  background: hsla(0, 0%, 100%, 0.7);
+  background: hsla(55, 41%, 84%, 0.422);
   backface-visibility: hidden;
   color: black;
 }
@@ -160,4 +186,13 @@ $pn-cube-translateZ: calc($pn-cube-heightAndWidth / 2);
 .cube__face--bottom {
   transform: rotateX(-90deg) translateZ($pn-cube-translateZ);
 }
+
+// dev stuff
+.pn-animation {
+  // transition: all 0.5s;
+  // transform: rotateY(180deg);
+  // transform: translateZ(-10px) rotateY(-20deg) rotateX(0deg);
+  // background: green;
+}
+//--end here
 </style>
