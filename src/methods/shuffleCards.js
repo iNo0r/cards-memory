@@ -20,11 +20,12 @@ const myCards = [
 ];
 
 function shuffle() {
-  let firstShuffle = myCards.sort(() => Math.random() - 0.5);
-  let secondShuffle = firstShuffle.sort(() => Math.random() - 0.5);
-  let thridShuffle = secondShuffle.sort(() => Math.random() - 0.5);
+  // let firstShuffle = myCards.sort(() => Math.random() - 0.5);
+  // let secondShuffle = firstShuffle.sort(() => Math.random() - 0.5);
+  // let thridShuffle = secondShuffle.sort(() => Math.random() - 0.5);
 
-  return thridShuffle;
+  // return thridShuffle;
+  return myCards;
 }
 
 export default shuffle;
